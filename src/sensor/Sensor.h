@@ -1,10 +1,10 @@
-#ifndef ULTRASON_H
-#define ULTRASON_H
+#ifndef SENSOR_H
+#define SENSOR_H
 
 // Définition des pins
-extern const int trigPin;
-extern const int echoPin;
-extern const int buttonPin;  // Nouveau : bouton pour activer/désactiver
+extern const int trig_pin;
+extern const int echo_pin;
+extern const int button_pin;  // Nouveau : bouton pour activer/désactiver
 
 // Déclaration des variables
 extern long duration;
