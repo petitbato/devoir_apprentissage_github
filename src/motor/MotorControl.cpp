@@ -1,26 +1,80 @@
 #include "MotorControl.h"
 #include <Arduino.h>
 
-// Variables pour état du moteur
+// Global variables to track the motor state
 bool isMotorRunning = false;       
 bool isClockwise = true;           
 int directionChangeCount = 0;      
-unsigned long startTime = 0;       
+unsigned long startTime = 0;      
 
+// Motor initialization
+void initializeMotor() {
+    pinMode(MOTOR_PIN1, OUTPUT);
+    pinMode(MOTOR_PIN2, OUTPUT);
+    pinMode(ENABLE_PIN, OUTPUT);
 
-void initializeMotor() {}
+    stopMotor();
+    Serial.begin(9600); 
+    Serial.println("Motor initialized.");
+}
 
-// Rotation dans le sens horaire
-void startMotorClockwise() {}
+// Clockwise rotation
+void startMotorClockwise() {
+    if (!isMotorRunning) {
+        startTime = millis(); 
+        isMotorRunning = true;
+    }
 
-// Rotation dans le sens antihoraire
-void startMotorCounterClockwise() {}
+    digitalWrite(MOTOR_PIN1, HIGH);
+    digitalWrite(MOTOR_PIN2, LOW);
+    analogWrite(ENABLE_PIN, 255); 
 
-// Arrêt complet
-void stopMotor() {}
+    isClockwise = true;
+    Serial.println("Motor running clockwise."); // Message for Bluetooth
+}
 
-// Changer la direction du moteur
-void toggleMotorDirection() {}
+// Counterclockwise rotation
+void startMotorCounterClockwise() {
+    if (!isMotorRunning) {
+        startTime = millis(); 
+        isMotorRunning = true;
+    }
 
-// Gestion automatique de l'arrêt du moteur
-void checkMotorTimeout() {}
+    digitalWrite(MOTOR_PIN1, LOW); 
+    digitalWrite(MOTOR_PIN2, HIGH);
+    analogWrite(ENABLE_PIN, 255); 
+
+    isClockwise = false;
+    Serial.println("Motor running counterclockwise."); // message for Bluetooth
+}
+
+// Complete stop
+void stopMotor() {
+    digitalWrite(MOTOR_PIN1, LOW);
+    digitalWrite(MOTOR_PIN2, LOW);
+    analogWrite(ENABLE_PIN, 0);
+
+    isMotorRunning = false;
+    Serial.println("Motor stopped."); // message for Bluetooth
+}
+
+// Change motor direction
+void toggleMotorDirection() {
+    if (isClockwise) {
+        startMotorCounterClockwise();
+    } else {
+        startMotorClockwise();
+    }
+
+    directionChangeCount++; 
+}
+
+// Automatic motor stop management
+void checkMotorTimeout() {
+    if (isMotorRunning) {
+        if (millis() - startTime >= 30000 || directionChangeCount >= 5) {
+            stopMotor();
+            Serial.println("Motor stopped automatically due to timeout or max direction changes.");
+        }
+    }
+}
