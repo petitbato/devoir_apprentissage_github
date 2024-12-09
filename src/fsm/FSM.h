@@ -18,13 +18,15 @@ enum Event {
 class FSM {
 public:
     FSM();
-    void handleEvent(Event event);
+    void mainLoop();
     State getState();
+    void setState(State state);
 
 private:
     State currentState;
     int directionChangeCount;
     unsigned long startTime;
+    int distance;
     void transitionTo(State newState);
 };
 
