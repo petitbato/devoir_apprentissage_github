@@ -1,15 +1,15 @@
 #include "FSM.h"
+#include "Arduino.h"
 #include "MotorControl.h"
 #include "Bluetooth.h"
 #include "Sensor.h"
-#include "config.h"
 
 FSM::FSM() {
     currentState = INIT;
     directionChangeCount = 0;
 }
 
-void FSM::mainLoop() {
+int FSM::mainLoop() {
     switch (currentState) {
         case INIT:
             distance = lireDistance();

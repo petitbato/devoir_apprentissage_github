@@ -8,7 +8,6 @@ enum State {
     FINAL
 };
 
-unsigned long millis(void);
 enum Event {
     SENSOR_DETECTED,
     TIMEOUT,
@@ -18,7 +17,7 @@ enum Event {
 class FSM {
 public:
     FSM();
-    void mainLoop();
+    int mainLoop();
     State getState();
     void setState(State state);
 

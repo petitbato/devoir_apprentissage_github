@@ -1,6 +1,5 @@
 #include "MotorControl.h"
 #include <Arduino.h>
-#include "config.h"
 
 // Global variables to track the motor state
 bool isMotorRunning = false;       
