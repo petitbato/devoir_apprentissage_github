@@ -3,6 +3,11 @@
 
 Welcome to the GitHub repository for the **Robotics Software Homework**! This project is part of a robotics class, designed to help you practice coding standards, version control with Git, and collaboration through peer reviews. The goal is to create a system that interfaces with a motor and an obstacle sensor, performing actions based on sensor input while adhering to best practices in code structure and versioning.
 
+## FSM Diagram
+
+![Diagramme du moteur](images/FSM.PNG)
+
+
 ## Project Structure
 
 To keep things modular and maintainable, the project follows a well-organized structure, with all the source code located in the `/src` folder:
