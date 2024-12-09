@@ -55,6 +55,10 @@ State FSM::getState() {
     return currentState;
 }
 
+void FSM::setState(State state) {
+    currentState = state;
+}
+
 void FSM::transitionTo(State newState) {
     currentState = newState;
 }
