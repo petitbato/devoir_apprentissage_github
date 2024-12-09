@@ -1,5 +1,4 @@
 #include "MotorControl.h"
-#include <Arduino.h>
 
 // Global variables to track the motor state
 bool isMotorRunning = false;       
@@ -14,8 +13,6 @@ void initializeMotor() {
     pinMode(ENABLE_PIN, OUTPUT);
 
     stopMotor();
-    Serial.begin(9600); 
-    Serial.println("Motor initialized.");
 }
 
 // Clockwise rotation

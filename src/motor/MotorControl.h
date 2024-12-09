@@ -2,6 +2,7 @@
 #define MOTOR_CONTROL_H
 
 #include <Arduino.h>
+#include <HardwareSerial.h>
 
 #define MOTOR_PIN1 9  
 #define MOTOR_PIN2 10 
