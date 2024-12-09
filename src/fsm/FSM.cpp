@@ -20,6 +20,7 @@ int FSM::mainLoop() {
                 startMotorClockwise();
                 directionChangeCount++;
                 transitionTo(FORWARD);
+                Bluetooth::sendMessage("Motor rotating counterclockwise");
             }
             break;
 
@@ -28,7 +29,7 @@ int FSM::mainLoop() {
             if (distance < 3) {
                 startMotorCounterClockwise();
                 directionChangeCount++;
-                // Bluetooth::sendMessage("Motor rotating counterclockwise");
+                Bluetooth::sendMessage("Motor rotating counterclockwise");
                 transitionTo(BACKWARD);
             }
             break;
@@ -38,7 +39,7 @@ int FSM::mainLoop() {
             if (distance < 3) {
                 startMotorClockwise();
                 directionChangeCount++;
-                // Bluetooth::sendMessage("Motor rotating clockwise");
+                Bluetooth::sendMessage("Motor rotating clockwise");
                 transitionTo(FORWARD);
             }
             break;
