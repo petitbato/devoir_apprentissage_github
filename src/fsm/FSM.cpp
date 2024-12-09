@@ -5,49 +5,48 @@
 FSM::FSM() {
     currentState = INIT;
     directionChangeCount = 0;
-    startTime = millis();
 }
 
-void FSM::handleEvent(Event event) {
+void FSM::mainLoop() {
     switch (currentState) {
         case INIT:
-            if (event == SENSOR_DETECTED) {
-                // MotorControl::rotateClockwise();
-                // Bluetooth::sendMessage("Motor rotating clockwise");
+            distance = lireDistance();
+            directionChangeCount = 0;
+            if (distance < 3) {
+                startTime = millis();
+                initializeMotor();
+                startMotorClockwise();
+                directionChangeCount++;
                 transitionTo(FORWARD);
             }
             break;
 
         case FORWARD:
-            if (event == SENSOR_DETECTED) {
+            distance = lireDistance();
+            if (distance < 3) {
+                startMotorCounterClockwise();
                 directionChangeCount++;
-                // MotorControl::rotateCounterClockwise();
                 // Bluetooth::sendMessage("Motor rotating counterclockwise");
                 transitionTo(BACKWARD);
-            } else if (millis() - startTime > 30000 || directionChangeCount >= 5) {
-                // MotorControl::stop();
-                // Bluetooth::sendMessage("Motor stopped");
-                transitionTo(FINAL);
             }
             break;
 
-        case BACKWARD:
-            if (event == SENSOR_DETECTED) {
+        case BACKWARD:            
+            distance = lireDistance();
+            if (distance < 3) {
+                startMotorClockwise();
                 directionChangeCount++;
-                // MotorControl::rotateClockwise();
                 // Bluetooth::sendMessage("Motor rotating clockwise");
                 transitionTo(FORWARD);
-            } else if (millis() - startTime > 30000 || directionChangeCount >= 5) {
-                transitionTo(FINAL);
             }
             break;
 
         case FINAL:
-                // MotorControl::stop();
-                // Bluetooth::sendMessage("Motor stopped");
+                stopMotor();
             // No transitions; system must reboot to reactivate.
             break;
     }
+    return directionChangeCount;
 }
 
 State FSM::getState() {

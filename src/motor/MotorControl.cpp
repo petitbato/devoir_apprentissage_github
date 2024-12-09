@@ -1,6 +1,6 @@
 #include "MotorControl.h"
 #include <Arduino.h>
-#include <HardwareSerial.h>
+#include "config.h"
 
 // Global variables to track the motor state
 bool isMotorRunning = false;       
@@ -66,14 +66,4 @@ void toggleMotorDirection() {
     }
 
     directionChangeCount++; 
-}
-
-// Automatic motor stop management
-void checkMotorTimeout() {
-    if (isMotorRunning) {
-        if (millis() - startTime >= 30000 || directionChangeCount >= 5) {
-            stopMotor();
-            Serial.println("Motor stopped automatically due to timeout or max direction changes.");
-        }
-    }
 }
