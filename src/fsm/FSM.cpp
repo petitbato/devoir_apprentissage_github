@@ -1,6 +1,8 @@
 #include "FSM.h"
 #include "MotorControl.h"
 #include "Bluetooth.h"
+#include "Sensor.h"
+#include "config.h"
 
 FSM::FSM() {
     currentState = INIT;
